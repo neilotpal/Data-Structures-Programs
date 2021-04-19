@@ -4,12 +4,32 @@
 #define MAX 100
 char stack[MAX];
 int top=-1;
+char temp[100];
 char pop();
+void reverse(char str[]);
 void push(char item);
 int prcd(char symbol);
 int isoperand(char symbol);
 int isoperator(char symbol);
 void convertopost(char infix[],char postfix[]);
+
+void reverse(char str[]){
+	int len,i=0,j=0;
+	len=strlen(str);
+	j=len-1;
+	while(j>=0)
+	{
+		if(str[j]=='(')
+			temp[i]=')';
+		else if(str[j]==')')
+			temp[i]='(';
+		else
+			temp[i]=str[j];
+			j--;
+			i++;
+	}
+	temp[i]='\0';
+}
 
 char pop()
 {
@@ -124,13 +144,18 @@ void convertopost(char infix[],char postfix[])
 	}
 	postfix[j]='\0';
 }
+
 int main()
 {
 	char infix[100],postfix[100];
 	printf("Enter the valid Infix String\n");
 	gets(infix);
-	convertopost(infix,postfix);
+	reverse(infix);
+	convertopost(temp,postfix);
 	printf("The corresponding Postfix String is \n");
 	puts(postfix);
+	printf("The Prefix Expression is \n");
+	reverse(postfix);
+	puts(temp);
 	return 0;
 }
